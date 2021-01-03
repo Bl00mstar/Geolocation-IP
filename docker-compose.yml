@@ -1,0 +1,31 @@
+version: "3.8"
+services:
+  api:
+    build:
+      context: ./api
+    volumes:
+      - ./api:/usr/src/app
+    networks:
+      - iptest
+    ports:
+      - "8881:80"
+
+  frontend:
+    build:
+      context: ./client
+    restart: always
+    build: ./client
+    ports:
+      - "8882:80"
+    networks:
+      - iptest
+    depends_on:
+      - api
+
+
+networks:
+  iptest:
+    driver: bridge
+
+volumes:
+  blogpg:
