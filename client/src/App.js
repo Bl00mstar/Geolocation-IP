@@ -7,9 +7,11 @@ import { AnimatePresence } from 'framer-motion';
 const App = () => {
   const element = useRoutes(routes);
   return (
-    <MainLayout>
-      <AnimatePresence exitBeforeEnter>{element}</AnimatePresence>
-    </MainLayout>
+    <>
+      <MainLayout>
+        <AnimatePresence exitBeforeEnter>{element}</AnimatePresence>
+      </MainLayout>
+    </>
   );
 };
 

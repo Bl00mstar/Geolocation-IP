@@ -3,10 +3,12 @@ import Menu from '../Menu';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import media from '@utils/media';
+import ErrorLayout from '../ErrorLayout/ErrorLayout';
 
 const MainLayout = ({ children }) => (
   <MainContaier>
     <Menu />
+    <ErrorLayout />
     <StyledMain>{children}</StyledMain>
   </MainContaier>
 );

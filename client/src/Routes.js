@@ -1,19 +1,19 @@
 import React from 'react';
 
-// import Home from '@views/Home';
-// import About from '@views/About';
+import Home from '@views/Home';
+import About from '@views/About';
 
 export const routes = [
   {
     description: 'Home',
     path: '/',
-    element: <></>,
+    element: <Home />,
     type: 'routing',
   },
   {
     description: 'About',
     path: '/about',
-    element: <></>,
+    element: <About />,
     type: 'routing',
   },
 ];

@@ -57,13 +57,10 @@ const NavLink = styled(Link)`
   color: var(--text);
   transition: all 450ms linear;
   border-bottom: 1px solid transparent;
-  &.focus {
-    border-bottom: 1px solid red;
-  }
   &.active {
-    border-bottom: 1px solid red;
+    border-bottom: 1px solid #ba55d3;
   }
   &:hover {
-    border-bottom: 1px solid red;
+    border-bottom: 1px solid #ee82ee;
   }
 `;
