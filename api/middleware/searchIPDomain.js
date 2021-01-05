@@ -99,15 +99,18 @@ const isIP = (str, version = "") => {
 module.exports = {
   inputIPAddress: async (req, res, next) => {
     try {
-      let value = assertString(req.params.input);
+      let value = await assertString(req.params.input);
       let ipMaybe = await checkType(value);
+      console.log("a" + isIP(ipMaybe));
       if (isIP(ipMaybe)) {
         res.locals.ip = ipMaybe;
         next();
+      } else {
+        console.log("ret?");
+        res.status(213).json({ msg: "It is not a valid IP Address." });
       }
-      res.status(211).json({ msg: "It is not a valid IP Address." });
     } catch (error) {
-      res.status(211).json({ msg: "It is not a valid IP Address." });
+      res.status(212).json({ msg: "It is not a valid IP Address." });
     }
   },
 };

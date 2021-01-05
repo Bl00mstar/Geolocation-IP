@@ -1,12 +1,13 @@
-version: "3.8"
+version: "3.4"
 services:
   api:
     build:
       context: ./api
+      network: host
     volumes:
       - ./api:/usr/src/app
     networks:
-      - iptest
+      - front
     ports:
       - "8881:80"
 
@@ -18,13 +19,13 @@ services:
     ports:
       - "8882:80"
     networks:
-      - iptest
+      - front
     depends_on:
       - api
 
 
 networks:
-  iptest:
+  front:
     driver: bridge
 
 volumes:
