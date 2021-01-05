@@ -12,7 +12,7 @@ function* fetchClientData() {
   yield put(error.clearError());
   try {
     const response = yield api.handleRequest('POST', '/api/current_ip', {
-      type: 'custom',
+      type: 'api',
     });
     if (response.status === 200) {
     } else if (response.status === 211) {

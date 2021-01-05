@@ -3,7 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 
 const MapComponent = ({ latitude, longitude, ip }) => {
   return (
-    <div className="col s12 center">
+    <>
       <h5>Your IP address is: {ip}</h5>
       <MapContainer
         center={[latitude, longitude]}
@@ -21,7 +21,7 @@ const MapComponent = ({ latitude, longitude, ip }) => {
           </Popup>
         </Marker>
       </MapContainer>
-    </div>
+    </>
   );
 };
 

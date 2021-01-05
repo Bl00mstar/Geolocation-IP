@@ -10,24 +10,7 @@ const About = ({ clearStateErrors }) => {
 
   return (
     <StyledContainer>
-      <div>sadsaddssad</div>
-      <div>sadsaddssad</div>
-      <div>sadsaddssad</div>
-      <div>sadsaddssad</div>
-      <div>sadsaddssad</div>
-      <div>sadsaddssad</div>
-      <div>sadsaddssad</div>
-      <div>sadsaddssad</div>
-      <div>sadsaddssad</div>
-      <div>sadsaddssad</div>
-      <div>sadsaddssad</div>
-      <div>sadsaddssad</div>
-      <div>sadsaddssad</div>
-      <div>sadsaddssad</div>
-      <div>sadsaddssad</div>
-      <div>sadsaddssad</div>
-      <div>sadsaddssad</div>
-      <div>sadsaddssad</div>
+      <div>About</div>
     </StyledContainer>
   );
 };

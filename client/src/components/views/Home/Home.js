@@ -4,17 +4,20 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import SearchBar from '@containers/SearchBar';
 import Ellipsis from '@containers/Ellipsis';
-import { DefaultMap } from '@containers/Map';
 import { handleRequest } from '@store/user/user.helpers';
+import 'leaflet/dist/leaflet.css';
+
+import { Map } from '../../containers/Map';
 
 const Home = ({
   dataLoading,
   checkClientData,
   clearStateErrors,
   clientData,
+  isError,
 }) => {
   const [searchData, setSearchData] = useState('');
-  const [searchLoading, setSearchLoading] = useState(false);
+  const [asd, setAsd] = useState('');
   const [clicked, setClicked] = useState(false);
 
   useEffect(() => {
@@ -22,15 +25,28 @@ const Home = ({
     clearStateErrors();
   }, [checkClientData, clearStateErrors]);
 
-  const func = (text, mode) => {
+  useEffect(() => {
+    if (searchData) {
+      console.log(searchData);
+      setAsd(searchData);
+    }
+  }, [searchData]);
+
+  const func = async (text, mode) => {
     console.log(text);
     console.log(mode);
     setClicked(true);
-    setSearchLoading(true);
+
     try {
-      handleRequest('POST', `/api/check/${text}`, { type: mode }).then((data) =>
-        console.log(data)
-      );
+      await handleRequest('POST', `/api/check/${text}`, {
+        type: mode,
+      })
+        .then((data) => {
+          setSearchData(data.data);
+        })
+        .finally(() => {
+          setClicked(false);
+        });
     } catch (error) {
       console.log(error);
     }
@@ -39,12 +55,27 @@ const Home = ({
   return (
     <StyledContainer>
       <StyledRow>
-        {dataLoading ? <Ellipsis /> : <DefaultMap data={clientData} />}
+        {!isError && clientData.length > 0 ? (
+          <Map
+            latitude={clientData.latitude}
+            longitude={clientData.longitude}
+            ip={clientData.ip}
+          />
+        ) : (
+          <></>
+        )}
         <SearchBar handleSearch={func} />
-        {/* {searchLoading ? <Ellipsis /> : <></>} */}
-        {/* {searchData ? <DefaultMap data={searchData} /> : <Ellipsis />} */}
-        {clicked && searchLoading ? <Ellipsis /> : <></>}
-        {!clicked && searchData ? <DefaultMap data={searchData} /> : <></>}
+        {clicked ? (
+          <Ellipsis />
+        ) : (
+          asd && (
+            <Map
+              latitude={asd.latitude}
+              longitude={asd.longitude}
+              ip={asd.ip}
+            />
+          )
+        )}
       </StyledRow>
     </StyledContainer>
   );
@@ -55,11 +86,13 @@ Home.propTypes = {
   clientDataLoading: PropTypes.bool,
   checkClientData: PropTypes.func,
   clearStateErrors: PropTypes.func,
+  isError: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => ({
   dataLoading: state.user.clientDataLoading,
   clientData: state.user.clientData,
+  isError: state.error.isError,
 });
 
 const mapDispatchToProps = (dispatch) => {
