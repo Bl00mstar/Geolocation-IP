@@ -7,7 +7,9 @@ services:
     volumes:
       - ./api:/usr/src/app
     networks:
-      - front
+      - net
+    dns:
+      - 8.8.8.8
     ports:
       - "8881:80"
 
@@ -19,13 +21,13 @@ services:
     ports:
       - "8882:80"
     networks:
-      - front
+      - net
     depends_on:
       - api
 
 
 networks:
-  front:
+  net:
     driver: bridge
 
 volumes:
