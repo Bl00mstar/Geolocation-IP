@@ -6,7 +6,7 @@ import SearchBar from '@containers/SearchBar';
 import Ellipsis from '@containers/Ellipsis';
 import { handleRequest } from '@store/user/user.helpers';
 import 'leaflet/dist/leaflet.css';
-
+import { addItemToHistory } from '../../../store/history/history.action';
 import { Map } from '../../containers/Map';
 
 const Home = ({
@@ -15,6 +15,8 @@ const Home = ({
   clearStateErrors,
   clientData,
   isError,
+  history,
+  addToHistory,
 }) => {
   const [searchData, setSearchData] = useState('');
   const [asd, setAsd] = useState('');
@@ -43,6 +45,7 @@ const Home = ({
       })
         .then((data) => {
           setSearchData(data.data);
+          addToHistory(text);
         })
         .finally(() => {
           setClicked(false);
@@ -51,6 +54,11 @@ const Home = ({
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    console.log(history);
+    console.log(typeof history);
+  }, [history]);
 
   return (
     <StyledContainer>
@@ -76,6 +84,14 @@ const Home = ({
             />
           )
         )}
+        <h2>Recently searched: </h2>
+        {Object.keys(history).map(function (key) {
+          return (
+            <div>
+              Key: {key}, Value: {history[key]}
+            </div>
+          );
+        })}
       </StyledRow>
     </StyledContainer>
   );
@@ -86,19 +102,23 @@ Home.propTypes = {
   clientDataLoading: PropTypes.bool,
   checkClientData: PropTypes.func,
   clearStateErrors: PropTypes.func,
+
   isError: PropTypes.bool,
+  history: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({
   dataLoading: state.user.clientDataLoading,
   clientData: state.user.clientData,
   isError: state.error.isError,
+  history: state.history.history,
 });
 
 const mapDispatchToProps = (dispatch) => {
   return {
     checkClientData: () => dispatch({ type: 'DATA_LOADING' }),
     clearStateErrors: () => dispatch({ type: 'ERROR_CLEAR' }),
+    addToHistory: (x) => dispatch(addItemToHistory(x)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
