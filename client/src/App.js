@@ -12,8 +12,8 @@ const App = () => {
     <div
       style={{
         backgroundImage: `url("${Background}")`,
-        height: '100vh',
-        backgroundSize: 'cover',
+        minHeight: '100vh',
+        backgroundSize: 'contain ',
       }}
     >
       <MainLayout>
@@ -24,6 +24,3 @@ const App = () => {
 };
 
 export default App;
-
-// background-image: url('${Background}');
-// import Background from '../../assets/Subtle-Prism.svg';

@@ -8,7 +8,6 @@ export const handleRequest = (method, url, data) => {
       timeout: 10000,
       url,
     };
-    console.log(requestConfig);
     axios(requestConfig)
       .then((res) => {
         resolve(res);

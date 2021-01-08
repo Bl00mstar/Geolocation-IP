@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
@@ -24,12 +23,7 @@ ErrorLayout.propTypes = {
   errorMessage: PropTypes.string,
 };
 
-const mapStateToProps = (state) => ({
-  isError: state.error.isError,
-  errorMessage: state.error.errorMessage,
-});
-
-export default connect(mapStateToProps)(ErrorLayout);
+export default ErrorLayout;
 
 const StyledTag = styled.span``;
 const StyledContainer = styled.div`

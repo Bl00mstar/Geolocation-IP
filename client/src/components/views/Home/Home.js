@@ -8,19 +8,19 @@ import { handleRequest } from '@store/user/user.helpers';
 import 'leaflet/dist/leaflet.css';
 import { addItemToHistory } from '../../../store/history/history.action';
 import { Map } from '../../containers/Map';
+import { History } from '../../containers/History';
 
 const Home = ({
-  dataLoading,
   checkClientData,
   clearStateErrors,
   clientData,
   isError,
-  history,
   addToHistory,
 }) => {
   const [searchData, setSearchData] = useState('');
   const [asd, setAsd] = useState('');
   const [clicked, setClicked] = useState(false);
+  const [errData, setErrData] = useState('');
 
   useEffect(() => {
     checkClientData();
@@ -29,36 +29,32 @@ const Home = ({
 
   useEffect(() => {
     if (searchData) {
-      console.log(searchData);
       setAsd(searchData);
     }
   }, [searchData]);
 
-  const func = async (text, mode) => {
-    console.log(text);
-    console.log(mode);
+  const func = async (text) => {
     setClicked(true);
 
     try {
       await handleRequest('POST', `/api/check/${text}`, {
-        type: mode,
+        type: 'api',
       })
         .then((data) => {
-          setSearchData(data.data);
-          addToHistory(text);
+          if (data.data.msg) {
+            setErrData({ message: data.data.msg });
+          } else {
+            setSearchData(data.data);
+            addToHistory(text);
+          }
         })
         .finally(() => {
           setClicked(false);
         });
     } catch (error) {
-      console.log(error);
+      setErrData({ message: error.statusText });
     }
   };
-
-  useEffect(() => {
-    console.log(history);
-    console.log(typeof history);
-  }, [history]);
 
   return (
     <StyledContainer>
@@ -72,7 +68,8 @@ const Home = ({
         ) : (
           <></>
         )}
-        <SearchBar handleSearch={func} />
+        <History />
+        <SearchBar handleSearch={func} errData={errData} />
         {clicked ? (
           <Ellipsis />
         ) : (
@@ -84,14 +81,6 @@ const Home = ({
             />
           )
         )}
-        <h2>Recently searched: </h2>
-        {Object.keys(history).map(function (key) {
-          return (
-            <div>
-              Key: {key}, Value: {history[key]}
-            </div>
-          );
-        })}
       </StyledRow>
     </StyledContainer>
   );
@@ -102,16 +91,13 @@ Home.propTypes = {
   clientDataLoading: PropTypes.bool,
   checkClientData: PropTypes.func,
   clearStateErrors: PropTypes.func,
-
   isError: PropTypes.bool,
-  history: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({
   dataLoading: state.user.clientDataLoading,
   clientData: state.user.clientData,
   isError: state.error.isError,
-  history: state.history.history,
 });
 
 const mapDispatchToProps = (dispatch) => {
