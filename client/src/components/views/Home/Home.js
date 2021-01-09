@@ -18,7 +18,7 @@ const Home = ({
   addToHistory,
 }) => {
   const [searchData, setSearchData] = useState('');
-  const [asd, setAsd] = useState('');
+  const [searchDataUpdate, setsearchDataUpdate] = useState('');
   const [clicked, setClicked] = useState(false);
   const [errData, setErrData] = useState('');
 
@@ -29,7 +29,7 @@ const Home = ({
 
   useEffect(() => {
     if (searchData) {
-      setAsd(searchData);
+      setsearchDataUpdate(searchData);
     }
   }, [searchData]);
 
@@ -59,7 +59,7 @@ const Home = ({
   return (
     <StyledContainer>
       <StyledRow>
-        {!isError && clientData.length > 0 ? (
+        {!isError && clientData.longitude ? (
           <Map
             latitude={clientData.latitude}
             longitude={clientData.longitude}
@@ -73,11 +73,11 @@ const Home = ({
         {clicked ? (
           <Ellipsis />
         ) : (
-          asd && (
+          searchDataUpdate && (
             <Map
-              latitude={asd.latitude}
-              longitude={asd.longitude}
-              ip={asd.ip}
+              latitude={searchDataUpdate.latitude}
+              longitude={searchDataUpdate.longitude}
+              ip={searchDataUpdate.ip}
             />
           )
         )}
@@ -86,19 +86,21 @@ const Home = ({
   );
 };
 
-Home.propTypes = {
-  clientData: PropTypes.object,
-  clientDataLoading: PropTypes.bool,
-  checkClientData: PropTypes.func,
-  clearStateErrors: PropTypes.func,
-  isError: PropTypes.bool,
-};
+// Home.propTypes = {
+//   clientData: PropTypes.object,
+//   clientDataLoading: PropTypes.bool,
+//   checkClientData: PropTypes.func,
+//   clearStateErrors: PropTypes.func,
+//   isError: PropTypes.bool,
+// };
 
-const mapStateToProps = (state) => ({
-  dataLoading: state.user.clientDataLoading,
-  clientData: state.user.clientData,
-  isError: state.error.isError,
-});
+const mapStateToProps = (state) => {
+  return {
+    dataLoading: state.user.clientDataLoading,
+    clientData: state.user.clientData,
+    isError: state.error.isError,
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {

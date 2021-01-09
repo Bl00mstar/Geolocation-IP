@@ -9,5 +9,5 @@ export const requestDataError = () => {
 };
 
 export const requestDataSuccess = (data) => {
-  return { type: userTypes.DATA_LOADING, payload: data };
+  return { type: userTypes.DATA_LOADED, payload: data };
 };

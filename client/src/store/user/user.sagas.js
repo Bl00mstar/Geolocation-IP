@@ -15,6 +15,8 @@ function* fetchClientData() {
       type: 'api',
     });
     if (response.status === 200) {
+      console.log(response.data);
+      yield put(user.requestDataSuccess(response.data));
     } else if (response.status === 211) {
       yield put(error.setError(response.data.msg));
       yield put(user.requestDataError());
