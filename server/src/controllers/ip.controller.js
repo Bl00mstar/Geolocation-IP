@@ -101,16 +101,26 @@ module.exports = {
     try {
       let value = await assertString(req.params.input);
       let ipMaybe = await checkType(value);
-      console.log("a" + isIP(ipMaybe));
       if (isIP(ipMaybe)) {
         res.locals.ip = ipMaybe;
         next();
       } else {
-        console.log("ret?");
-        res.status(213).json({ msg: "It is not a valid IP Address." });
+        res.status(500).json({ msg: "It is not a valid IP Address." });
       }
     } catch (error) {
-      res.status(212).json({ msg: "It is not a valid IP Address." });
+      res.status(500).json({ msg: "It is not a valid IP Address." });
+    }
+  },
+  clientIPAdress: async (req, res, next) => {
+    try {
+      let forwarded = req.headers["x-forwarded-for"];
+      let ip = forwarded
+        ? forwarded.split(/, /)[0]
+        : req.connection.remoteAddress;
+      res.locals.ip = ip;
+      next();
+    } catch (error) {
+      res.status(500).json({ msg: "Unknown incoming IP address." });
     }
   },
 };

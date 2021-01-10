@@ -35,8 +35,10 @@ module.exports = {
     let value = isIp4InCidrs(res.locals.ip, list_of_subnets);
     value
       ? res
-          .status(211)
+          .status(500)
           .json({ msg: "This IP address is private. Check about section." })
       : next();
   },
 };
+
+module.exports.restrictedSubnets = list_of_subnets;

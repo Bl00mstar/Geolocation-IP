@@ -2,10 +2,10 @@ version: "3.4"
 services:
   api:
     build:
-      context: ./api
+      context: ./server
       network: host
     volumes:
-      - ./api:/usr/src/app
+      - ./server:/usr/src/app
     networks:
       - net
     ports:
