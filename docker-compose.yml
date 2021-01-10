@@ -8,8 +8,6 @@ services:
       - ./api:/usr/src/app
     networks:
       - net
-    dns:
-      - 8.8.8.8
     ports:
       - "8881:80"
 

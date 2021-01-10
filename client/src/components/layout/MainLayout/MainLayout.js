@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import media from '@utils/media';
 import ErrorLayout from '../ErrorLayout/ErrorLayout';
+import Background from '../../assets/Pattern-Randomized.svg';
 
 const MainLayout = ({ children, isError, errorMessage }) => (
   <MainContaier>

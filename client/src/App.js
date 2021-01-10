@@ -3,7 +3,6 @@ import { useRoutes } from 'react-router-dom';
 import { routes } from './Routes';
 import MainLayout from '@layout/MainLayout/MainLayout';
 import { AnimatePresence } from 'framer-motion';
-
 import Background from './components/assets/Pattern-Randomized.svg';
 
 const App = () => {
